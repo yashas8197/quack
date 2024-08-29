@@ -1,36 +1,84 @@
 import { CalendarDays } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserByUsername } from "../utils/userSlice";
+import { useParams } from "react-router-dom";
+import { fetchPosts } from "../utils/postSlice";
+import PostCard from "../components/PostCard";
 
 const Profile = () => {
+  const { username } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserByUsername(username));
+    dispatch(fetchPosts());
+  }, [dispatch, username]);
+
+  const { user, status, error } = useSelector((state) => state.users);
+  const { posts } = useSelector((post) => post.posts);
+
+  const usersPosts = posts.filter((post) => post.username === username);
+
+  if (status === "loading") {
+    return <div className="text-center">Loading...</div>;
+  }
+
+  if (status === "error") {
+    return <div className="alert alert-danger">Error: {error}</div>;
+  }
+
+  if (!user) return null;
+
   return (
     <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>
       <div className="d-flex justify-content-between align-items-center">
         <div>
           <img
             className="rounded-circle"
-            src="https://randomuser.me/api/portraits/women/44.jpg"
+            src={user.avatarURL}
             alt="User Avatar"
             style={{ width: "100px", height: "100px", objectFit: "cover" }}
           />
-          <h4>Neha Dung</h4>
-          <p>@Neha</p>
+          <h4>
+            {user.firstName} {user.lastName}
+          </h4>
+          <p>@{user.username}</p>
         </div>
 
         <div>
           <button className="btn btn-light rounded-pill">Edit Profile</button>
         </div>
       </div>
-      <div>
+      <div className="mb-5">
+        <p>{user.bio}</p>
+
         <p>
-          Dancing soul with rhythm in my veins. Embracing melodies through
-          movement. 🎶💃 #DanceLover
+          <a href={user.website} target="_blank" rel="noopener noreferrer">
+            {user.website}
+          </a>
         </p>
+
         <p className="float-end">
           <CalendarDays />
           Joined Nov 4, 2016
         </p>
-        <p>
-          <span>2</span>Posts <span>4</span>Following <span>3</span>Followers
+        <p className="d-flex align-items-center gap-2">
+          <span className="text-white fw-bold">2</span>
+          <span className="text-muted">Posts</span>
+
+          <span className="text-white fw-bold">{user.following.length}</span>
+          <span className="text-muted">Following</span>
+
+          <span className="text-white fw-bold">{user.followers.length}</span>
+          <span className="text-muted">Followers</span>
         </p>
+      </div>
+
+      <div>
+        {usersPosts.map((post) => (
+          <PostCard key={post._id} post={post} />
+        ))}
       </div>
     </div>
   );

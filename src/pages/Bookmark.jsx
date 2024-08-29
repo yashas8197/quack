@@ -1,7 +1,37 @@
+import { useDispatch, useSelector } from "react-redux";
+import PostCard from "../components/PostCard";
+import { useEffect } from "react";
+import { fetchPosts } from "../utils/postSlice";
+
 const Bookmark = () => {
+  const dispatch = useDispatch();
+  const { error, posts, status } = useSelector((post) => post.posts);
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  const bookMarkedPosts = posts.filter((post) => post.isMarked === true);
+
   return (
-    <div className="container my-4">
-      <h1>Bookmark</h1>
+    <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>
+      {status === "loading" && <div className="text-center">Loading...</div>}
+      {status === "error" && (
+        <div className="alert alert-danger">Error: {error}</div>
+      )}
+      {bookMarkedPosts.length > 0 ? (
+        <ul className="list-group">
+          {bookMarkedPosts?.map((post) => (
+            <li className="list-group-item" key={post._id}>
+              <PostCard post={post} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-center text-secondary h3">
+          You have not added any Bookmarks!
+        </p>
+      )}
     </div>
   );
 };

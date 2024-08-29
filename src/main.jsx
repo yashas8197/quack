@@ -6,6 +6,9 @@ import Home from "./pages/Home.jsx";
 import Explore from "./pages/Explore.jsx";
 import Profile from "./pages/Profile.jsx";
 import Bookmark from "./pages/Bookmark.jsx";
+import { Provider } from "react-redux";
+import store from "./utils/store.js";
+import PostDetails from "./pages/PostDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,12 +24,16 @@ const router = createBrowserRouter([
         element: <Explore />,
       },
       {
-        path: "/profile",
+        path: "/profile/:username",
         element: <Profile />,
       },
       {
         path: "/bookmark",
         element: <Bookmark />,
+      },
+      {
+        path: "/post-details/:postId",
+        element: <PostDetails />,
       },
     ],
   },
@@ -34,6 +41,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );
