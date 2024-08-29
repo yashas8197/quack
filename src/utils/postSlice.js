@@ -61,7 +61,6 @@ export const createPost = createAsyncThunk(
       dataToUpload
     );
 
-    console.log(response);
     return response.data;
   }
 );

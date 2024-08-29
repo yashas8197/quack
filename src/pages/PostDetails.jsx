@@ -12,7 +12,9 @@ const PostDetails = () => {
   useEffect(() => {
     dispatch(resetCurrentPost());
     dispatch(fetchPostById(postId));
-  }, [postId]);
+  }, [postId, dispatch]);
+
+  if (currentPost === null) return;
 
   return (
     <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>

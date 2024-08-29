@@ -19,17 +19,6 @@ const AddPost = () => {
     type: "",
   });
 
-  /* const handleMediaInput = (e) => {
-    const file = e.target.files[0];
-    if (file?.type.startsWith("image/") || file?.type.startsWith("video/")) {
-      setPostForm((prev) => ({
-        ...prev,
-        mediaUrl: URL.createObjectURL(file),
-        type: file?.type.startsWith("image/") ? "image" : "video",
-      }));
-    }
-  }; */
-
   const handleUpload = (url) => {
     setPostForm((prev) => ({
       ...prev,
@@ -52,8 +41,6 @@ const AddPost = () => {
       type: "",
     });
   };
-
-  console.log(postForm);
 
   return (
     <div className="p-4" style={{ border: "none" }}>
