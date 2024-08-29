@@ -129,9 +129,13 @@ const PostCard = ({ post }) => {
                 className="mt-3"
                 onClick={() => navigate(`/post-details/${post._id}`)}
               >
-                <video className="w-50 rounded" controls autoPlay muted loop>
-                  <source src={post.mediaUrl} />
-                </video>
+                {post?.type === "image" ? (
+                  <img className="w-50 rounded" src={post.mediaUrl} />
+                ) : (
+                  <video className="w-50 rounded" controls autoPlay muted loop>
+                    <source src={post.mediaUrl} />
+                  </video>
+                )}
               </div>
             )}
           </div>
@@ -178,7 +182,7 @@ const PostCard = ({ post }) => {
           <div className="d-flex align-items-start mb-3">
             <img
               className="rounded-circle me-3"
-              src="https://randomuser.me/api/portraits/women/44.jpg"
+              src="https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg"
               alt="User Avatar"
               style={{
                 width: "50px",

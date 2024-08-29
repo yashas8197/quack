@@ -53,6 +53,19 @@ export const likePost = createAsyncThunk(
   }
 );
 
+export const createPost = createAsyncThunk(
+  "posts/createPost",
+  async ({ dataToUpload }) => {
+    const response = await axios.post(
+      `https://quack-be.vercel.app/api/v1/post`,
+      dataToUpload
+    );
+
+    console.log(response);
+    return response.data;
+  }
+);
+
 const postSlice = createSlice({
   name: "posts",
   initialState: {
