@@ -48,7 +48,7 @@ const NavMenu = () => {
         </p>
         <p
           className={`d-flex gap-3 my-4 align-items-center h5 ${
-            currentPath === "/profile" ? "text-primary" : ""
+            currentPath === "/profile/Katherine" ? "text-primary" : ""
           }`}
           onClick={() => navigate("/profile/Katherine")}
           style={{ cursor: "pointer" }}

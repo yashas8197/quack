@@ -17,8 +17,6 @@ const Home = () => {
   const { error, posts, status } = useSelector((post) => post.posts);
   const user = useSelector((state) => state.users.usersList);
 
-  console.log(user);
-
   const userFollowing = (
     user?.find((u) => u.username === "Katherine")?.following || []
   ).map((u) => u.username);
