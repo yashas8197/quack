@@ -66,7 +66,13 @@ const NavMenu = () => {
           Logout
         </p>
       </div>
-      <button className="d-flex gap-2 align-items-center btn btn-info rounded-pill text-white px-5">
+      <button
+        type="button"
+        className="d-flex gap-2 align-items-center btn btn-info rounded-pill text-white px-5"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        data-bs-whatever="@mdo"
+      >
         <Feather />
         New Post
       </button>

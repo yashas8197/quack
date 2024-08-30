@@ -1,9 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+import "bootstrap/dist/js/bootstrap.min.js";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import NavMenu from "./components/NavMenu";
 import FollowSuggestions from "./components/FollowSuggestions";
+import { AddPostModal } from "./components/AddPost";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <FollowSuggestions />
         </div>
       </div>
+      <AddPostModal />
     </div>
   );
 }

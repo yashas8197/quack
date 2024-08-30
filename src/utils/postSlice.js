@@ -60,7 +60,6 @@ export const createPost = createAsyncThunk(
       `https://quack-be.vercel.app/api/v1/post`,
       dataToUpload
     );
-
     return response.data;
   }
 );
@@ -108,10 +107,22 @@ const postSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(fetchPostById.fulfilled, (state, action) => {
-      state.status = "fullfilled";
+      state.status = "fulfilled";
       state.currentPost = action.payload.post;
     });
     builder.addCase(fetchPostById.rejected, (state) => {
+      state.status = "rejected";
+    });
+
+    builder.addCase(createPost.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(createPost.fulfilled, (state, action) => {
+      state.status = "fulfilled";
+      const newPost = action.payload;
+      state.posts = [...state.posts, newPost];
+    });
+    builder.addCase(createPost.rejected, (state) => {
       state.status = "rejected";
     });
   },
