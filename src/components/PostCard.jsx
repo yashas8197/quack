@@ -77,7 +77,7 @@ const PostCard = ({ post }) => {
     if (likedAlready) {
       setLocalLiked((prev) => ({
         ...prev,
-        likeCount: prev.likeCount - 1,
+        likeCount: Math.max(prev.likeCount - 1, 0),
         likedBy: prev.likedBy.filter((user) => user.username !== "Katherine"),
       }));
 
@@ -123,7 +123,7 @@ const PostCard = ({ post }) => {
                 </span>
               </div>
             </div>
-            <p className="mt-2">{post.content}</p>
+            <p className="mt-2 w-75">{post.content}</p>
             {post.mediaUrl && (
               <div
                 className="mt-3"

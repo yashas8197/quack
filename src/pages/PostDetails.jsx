@@ -1,3 +1,4 @@
+// PostDetails.js
 import { useParams } from "react-router-dom";
 import PostCard from "../components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,15 +15,24 @@ const PostDetails = () => {
     dispatch(fetchPostById(postId));
   }, [postId, dispatch]);
 
-  if (currentPost === null) return;
+  if (currentPost === null) return null;
 
   return (
-    <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>
+    <div
+      className="container"
+      style={{
+        maxWidth: "800px",
+        margin: "auto",
+        height: "92vh",
+        overflowY: "scroll",
+        padding: "1rem",
+      }}
+    >
       {status === "loading" && <div className="text-center">Loading...</div>}
       {status === "error" && (
         <div className="alert alert-danger">Error: {error}</div>
       )}
-      <PostCard post={currentPost} />
+      {currentPost && <PostCard post={currentPost} />}
     </div>
   );
 };

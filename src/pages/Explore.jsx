@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+// Explore.js
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../utils/postSlice";
 import PostCard from "../components/PostCard";
-import { useNavigate } from "react-router-dom";
 
 const Explore = () => {
   const dispatch = useDispatch();
-
   const { error, posts, status } = useSelector((post) => post.posts);
 
   useEffect(() => {
@@ -14,14 +13,23 @@ const Explore = () => {
   }, [dispatch]);
 
   return (
-    <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>
+    <div
+      className="container"
+      style={{
+        maxWidth: "800px",
+        margin: "auto",
+        height: "92vh",
+        overflowY: "scroll",
+        padding: "1rem",
+      }}
+    >
       {status === "loading" && <div className="text-center">Loading...</div>}
       {status === "error" && (
         <div className="alert alert-danger">Error: {error}</div>
       )}
       <ul className="list-group">
         {posts?.map((post) => (
-          <li key={post._id} className="list-group-item ">
+          <li key={post._id} className="list-group-item">
             <PostCard post={post} />
           </li>
         ))}

@@ -1,3 +1,4 @@
+// FollowSuggestions.js
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../utils/userSlice";
@@ -44,7 +45,7 @@ const FollowSuggestions = () => {
               <p className="text-secondary mb-0">@{user.username}</p>
             </div>
           </div>
-          <div className="mx-4">
+          <div>
             <button className="btn btn-outline-light btn-sm">Follow</button>
           </div>
         </div>

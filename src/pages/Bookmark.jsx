@@ -14,13 +14,16 @@ const Bookmark = () => {
   const bookMarkedPosts = posts.filter((post) => post.isMarked === true);
 
   return (
-    <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>
+    <div className="container">
       {status === "loading" && <div className="text-center">Loading...</div>}
       {status === "error" && (
         <div className="alert alert-danger">Error: {error}</div>
       )}
       {bookMarkedPosts.length > 0 ? (
-        <ul className="list-group">
+        <ul
+          className="list-group"
+          style={{ height: "92vh", overflowY: "scroll" }}
+        >
           {bookMarkedPosts?.map((post) => (
             <li className="list-group-item" key={post._id}>
               <PostCard post={post} />

@@ -1,3 +1,4 @@
+// NavMenu.js
 import {
   Bookmark,
   CircleUserRound,
@@ -13,10 +14,10 @@ const NavMenu = () => {
   const currentPath = window.location.pathname;
 
   return (
-    <div>
-      <div className="container" style={{ marginLeft: "5rem" }}>
+    <div className="p-4">
+      <div className="mb-4">
         <p
-          className={`d-flex gap-3 my-4 align-items-center h5 ${
+          className={`d-flex gap-3 align-items-center h5 ${
             currentPath === "/" ? "text-primary" : ""
           }`}
           onClick={() => navigate("/")}
@@ -25,9 +26,8 @@ const NavMenu = () => {
           <House />
           Home
         </p>
-
         <p
-          className={`d-flex gap-3 my-4 align-items-center h5 ${
+          className={`d-flex gap-3 align-items-center h5 ${
             currentPath === "/explore" ? "text-primary" : ""
           }`}
           onClick={() => navigate("/explore")}
@@ -37,7 +37,7 @@ const NavMenu = () => {
           Explore
         </p>
         <p
-          className={`d-flex gap-3 my-4 align-items-center h5 ${
+          className={`d-flex gap-3 align-items-center h5 ${
             currentPath === "/bookmark" ? "text-primary" : ""
           }`}
           onClick={() => navigate("/bookmark")}
@@ -47,7 +47,7 @@ const NavMenu = () => {
           Bookmark
         </p>
         <p
-          className={`d-flex gap-3 my-4 align-items-center h5 ${
+          className={`d-flex gap-3 align-items-center h5 ${
             currentPath === "/profile/Katherine" ? "text-primary" : ""
           }`}
           onClick={() => navigate("/profile/Katherine")}
@@ -57,7 +57,7 @@ const NavMenu = () => {
           Profile
         </p>
         <p
-          className={`d-flex gap-3 my-4 align-items-center h5 ${
+          className={`d-flex gap-3 align-items-center h5 ${
             currentPath === "/logout" ? "text-primary" : ""
           }`}
           style={{ cursor: "pointer" }}
@@ -66,12 +66,10 @@ const NavMenu = () => {
           Logout
         </p>
       </div>
-      <div style={{ marginLeft: "5rem" }}>
-        <button className="d-flex my-4 gap-2 align-items-center btn btn-info rounded-pill text-white px-5 h5">
-          <Feather />
-          New Post
-        </button>
-      </div>
+      <button className="d-flex gap-2 align-items-center btn btn-info rounded-pill text-white px-5">
+        <Feather />
+        New Post
+      </button>
     </div>
   );
 };
