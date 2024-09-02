@@ -15,6 +15,8 @@ const Profile = () => {
   const [clickedOn, setClickedOn] = useState("");
   const [notFollowBack, setNotFollowBack] = useState([]);
 
+  const { posts } = useSelector((post) => post.posts);
+
   useEffect(() => {
     dispatch(fetchUserByUsername(username));
     dispatch(fetchPosts());
@@ -23,7 +25,6 @@ const Profile = () => {
   const { user, usersList, status, error } = useSelector(
     (state) => state.users
   );
-  const { posts } = useSelector((post) => post.posts);
 
   useEffect(() => {
     if (user) {

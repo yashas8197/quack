@@ -1,6 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { commentPost, likePost, setPost, updatePost } from "../utils/postSlice";
+import {
+  commentPost,
+  deletePostApi,
+  editedPost,
+  editPostApi,
+  likePost,
+  setPost,
+  updatePost,
+} from "../utils/postSlice";
 import {
   Bookmark,
   CircleCheckBig,
@@ -12,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
+import EditPost from "./EditPost";
 
 const PostCard = ({ post }) => {
   const [showComment, setShowComment] = useState(false);
@@ -97,7 +106,6 @@ const PostCard = ({ post }) => {
   const editPost = (post) => {
     dispatch(setPost(post));
   };
-  const deletePost = () => {};
 
   return (
     <div className="card mb-3" style={{ border: "none" }}>
@@ -125,34 +133,35 @@ const PostCard = ({ post }) => {
                   })}
                 </span>
               </div>
-              <div className="btn-group">
-                <Ellipsis
-                  className="dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  style={{ cursor: "pointer" }}
-                />
+              {post.username === "Katherine" && (
+                <div className="btn-group">
+                  <Ellipsis
+                    className="dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    style={{ cursor: "pointer" }}
+                  />
 
-                <ul className="dropdown-menu">
-                  <li
-                    className="container"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    data-bs-whatever="@mdo"
-                    onClick={() => editPost(post)}
-                  >
-                    <p className="text-white fw-bold">Edit Post</p>
-                  </li>
-                  <li className="container">
-                    <p
-                      className="text-white fw-bold m-0"
-                      onClick={() => deletePost()}
+                  <ul className="dropdown-menu">
+                    <li
+                      className="container"
+                      data-bs-toggle="modal"
+                      data-bs-target="#EditModal"
+                      onClick={() => editPost(post)}
                     >
-                      Delete Post
-                    </p>
-                  </li>
-                </ul>
-              </div>
+                      <p className="text-white fw-bold">Edit Post</p>
+                    </li>
+                    <li className="container">
+                      <p
+                        className="text-white fw-bold m-0"
+                        onClick={() => dispatch(deletePostApi(post._id))}
+                      >
+                        Delete Post
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
             <p className="mt-2 w-75">{post.content}</p>
             {post.mediaUrl && (
@@ -302,6 +311,8 @@ const PostCard = ({ post }) => {
           </Toast.Body>
         </Toast>
       </ToastContainer>
+
+      <EditPost />
     </div>
   );
 };

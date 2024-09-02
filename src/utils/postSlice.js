@@ -42,7 +42,7 @@ export const commentPost = createAsyncThunk(
 );
 
 export const likePost = createAsyncThunk(
-  "posts/commentPost",
+  "posts/likePost",
   async ({ postId, dataToUpdate }) => {
     const response = await axios.post(
       `https://quack-be.vercel.app/api/v1/like/${postId}`,
@@ -64,12 +64,33 @@ export const createPost = createAsyncThunk(
   }
 );
 
+export const editPostApi = createAsyncThunk(
+  "posts/editPostApi",
+  async ({ id, dataToUpdate }) => {
+    const response = await axios.post(
+      `https://quack-be.vercel.app/api/v1/edit/${id}`,
+      dataToUpdate
+    );
+    return response.data;
+  }
+);
+
+export const deletePostApi = createAsyncThunk(
+  "posts/deletePost",
+  async (id) => {
+    const response = await axios.delete(
+      `https://quack-be.vercel.app/api/user/delete/${id}`
+    );
+    return id;
+  }
+);
+
 const postSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
     currentPost: null,
-    editPost: null,
+    editPost: {},
     status: "idle",
     error: null,
   },
@@ -129,9 +150,35 @@ const postSlice = createSlice({
     builder.addCase(createPost.rejected, (state) => {
       state.status = "rejected";
     });
+
+    builder.addCase(editPostApi.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(editPostApi.fulfilled, (state, action) => {
+      state.status = "fulfilled";
+      const updatedPost = action.payload.post;
+      state.editPost = updatedPost;
+      state.posts = state.posts.map((post) =>
+        post._id === updatedPost._id ? updatedPost : post
+      );
+    });
+    builder.addCase(editPostApi.rejected, (state) => {
+      state.status = "rejected";
+    });
+
+    builder.addCase(deletePostApi.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(deletePostApi.fulfilled, (state, action) => {
+      state.status = "fulfilled";
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
+    });
+    builder.addCase(deletePostApi.rejected, (state) => {
+      state.status = "rejected";
+    });
   },
 });
 
-export const { resetCurrentPost, setPost } = postSlice.actions;
+export const { resetCurrentPost, setPost, editedPost } = postSlice.actions;
 
 export default postSlice.reducer;
