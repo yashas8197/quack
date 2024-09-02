@@ -9,7 +9,7 @@ import { AddPostModal } from "./components/AddPost";
 function App() {
   return (
     <div className="d-flex flex-column min-vh-100">
-      <div style={{ marginLeft: "6rem" }}>
+      <div style={{ marginLeft: "2rem" }}>
         <Header />
       </div>
       <div className="d-flex flex-grow-1">

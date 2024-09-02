@@ -1,26 +1,38 @@
 // Profile.js
 import { CalendarDays } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserByUsername } from "../utils/userSlice";
 import { useParams } from "react-router-dom";
 import { fetchPosts } from "../utils/postSlice";
 import PostCard from "../components/PostCard";
+import ShowFollow from "../components/ShowFollow";
+import useNotFollowingBack from "../utils/useNotFollowingBack";
 
 const Profile = () => {
   const { username } = useParams();
   const dispatch = useDispatch();
+  const [clickedOn, setClickedOn] = useState("");
+  const [notFollowBack, setNotFollowBack] = useState([]);
 
   useEffect(() => {
     dispatch(fetchUserByUsername(username));
     dispatch(fetchPosts());
   }, [dispatch, username]);
 
-  const { user, status, error } = useSelector((state) => state.users);
+  const { user, usersList, status, error } = useSelector(
+    (state) => state.users
+  );
   const { posts } = useSelector((post) => post.posts);
 
-  const usersPosts = posts.filter((post) => post.username === username);
+  useEffect(() => {
+    if (user) {
+      const result = useNotFollowingBack(user);
+      setNotFollowBack(result);
+    }
+  }, [user]);
 
+  const usersPosts = posts.filter((post) => post.username === username);
   if (status === "loading") {
     return <div className="text-center">Loading...</div>;
   }
@@ -71,19 +83,44 @@ const Profile = () => {
           Joined Nov 4, 2016
         </p>
         <p className="d-flex align-items-center gap-2">
-          <span className="text-white fw-bold">2</span>
-          <span className="text-muted">Posts</span>
-          <span className="text-white fw-bold">{user.following.length}</span>
-          <span className="text-muted">Following</span>
-          <span className="text-white fw-bold">{user.followers.length}</span>
-          <span className="text-muted">Followers</span>
+          <span>
+            <span className="text-white fw-bold">2</span>
+            <span className="text-muted">Posts</span>
+          </span>
+          <span
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            style={{ cursor: "pointer" }}
+            onClick={() => setClickedOn("following")}
+          >
+            <span className="text-white fw-bold">{user.following.length}</span>
+            <span className="text-muted">Following</span>
+          </span>
+          <span
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            style={{ cursor: "pointer" }}
+            onClick={() => setClickedOn("followers")}
+          >
+            <span className="text-white fw-bold">{user.followers.length}</span>
+            <span className="text-muted">Followers</span>
+          </span>
         </p>
       </div>
       <div>
-        {usersPosts.map((post) => (
-          <PostCard key={post._id} post={post} />
-        ))}
+        <ul className="list-group">
+          {usersPosts.map((post) => (
+            <li key={post._id} className="list-group-item">
+              <PostCard post={post} />
+            </li>
+          ))}
+        </ul>
       </div>
+      <ShowFollow
+        user={user}
+        clickedOn={clickedOn}
+        notFollowBack={notFollowBack}
+      />
     </div>
   );
 };

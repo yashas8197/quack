@@ -16,6 +16,41 @@ export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
   return response.data;
 });
 
+export const updateUserFollowing = createAsyncThunk(
+  "user/updateUserFollowing",
+  async ({ id, dataToUpdate }) => {
+    const response = await axios.post(
+      `https://quack-be.vercel.app/api/v1/following/${id}`,
+      dataToUpdate
+    );
+
+    return response.data;
+  }
+);
+
+export const updateUserFollowers = createAsyncThunk(
+  "user/updateUserFollowers",
+  async ({ id, dataToUpdate }) => {
+    const response = await axios.post(
+      `https://quack-be.vercel.app/api/v1/followers/${id}`,
+      dataToUpdate
+    );
+
+    return response.data;
+  }
+);
+
+export const unFollowUser = createAsyncThunk(
+  "user/unFollowUser",
+  async ({ userId, followId }) => {
+    const response = await axios.post(
+      `https://quack-be.vercel.app/api/v1/unfollow/${userId}/${followId}`
+    );
+
+    return response.data;
+  }
+);
+
 const userSlice = createSlice({
   name: "users",
   initialState: {
@@ -27,6 +62,14 @@ const userSlice = createSlice({
   reducers: {
     clearUser: (state) => {
       state.user = null;
+    },
+    addFollowing: (state, action) => {
+      const { userId, newFollowRequest } = action.payload;
+
+      const userToUpdate = state.usersList.find((user) => user._id === userId);
+      if (userToUpdate) {
+        userToUpdate.following = [...userToUpdate.following, newFollowRequest];
+      }
     },
   },
   extraReducers: (builder) => {
@@ -53,9 +96,51 @@ const userSlice = createSlice({
       state.status = "rejected";
       state.error = action.error.message;
     });
+
+    builder.addCase(updateUserFollowing.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(updateUserFollowing.fulfilled, (state, action) => {
+      state.status = "fulfilled";
+      const updatedUser = action.payload.user;
+      const index = state.usersList.findIndex(
+        (user) => user._id === updatedUser._id
+      );
+      if (index !== -1) {
+        state.usersList[index] = updatedUser;
+      }
+      if (state.user && state.user._id === updatedUser._id) {
+        state.user = updatedUser;
+      }
+    });
+    builder.addCase(updateUserFollowing.rejected, (state, action) => {
+      state.status = "rejected";
+      state.error = action.error.message;
+    });
+
+    builder.addCase(updateUserFollowers.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(updateUserFollowers.fulfilled, (state, action) => {
+      state.status = "fulfilled";
+      const updatedUser = action.payload.user;
+      const index = state.usersList.findIndex(
+        (user) => user._id === updatedUser._id
+      );
+      if (index !== -1) {
+        state.usersList[index] = updatedUser;
+      }
+      if (state.user && state.user._id === updatedUser._id) {
+        state.user = updatedUser;
+      }
+    });
+    builder.addCase(updateUserFollowers.rejected, (state, action) => {
+      state.status = "rejected";
+      state.error = action.error.message;
+    });
   },
 });
 
-export const { clearUser } = userSlice.actions;
+export const { clearUser, addFollowing, unFollow } = userSlice.actions;
 
 export default userSlice.reducer;

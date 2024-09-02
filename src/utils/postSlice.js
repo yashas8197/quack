@@ -69,12 +69,16 @@ const postSlice = createSlice({
   initialState: {
     posts: [],
     currentPost: null,
+    editPost: null,
     status: "idle",
     error: null,
   },
   reducers: {
     resetCurrentPost: (state) => {
       state.currentPost = null;
+    },
+    setPost: (state, action) => {
+      state.editPost = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -128,6 +132,6 @@ const postSlice = createSlice({
   },
 });
 
-export const { resetCurrentPost } = postSlice.actions;
+export const { resetCurrentPost, setPost } = postSlice.actions;
 
 export default postSlice.reducer;

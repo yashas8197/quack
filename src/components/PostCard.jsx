@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { commentPost, likePost, updatePost } from "../utils/postSlice";
+import { commentPost, likePost, setPost, updatePost } from "../utils/postSlice";
 import {
   Bookmark,
   CircleCheckBig,
+  Ellipsis,
   Heart,
   MessageCircle,
   Share2,
@@ -93,6 +94,11 @@ const PostCard = ({ post }) => {
     dispatch(likePost({ postId, dataToUpdate: dataToUpdate }));
   };
 
+  const editPost = (post) => {
+    dispatch(setPost(post));
+  };
+  const deletePost = () => {};
+
   return (
     <div className="card mb-3" style={{ border: "none" }}>
       <div className="card-body" style={{ cursor: "pointer" }}>
@@ -105,11 +111,8 @@ const PostCard = ({ post }) => {
             onClick={() => handleProfileClick(post.username)}
           />
           <div className="flex-grow-1">
-            <div
-              className="d-flex justify-content-between"
-              onClick={() => handleProfileClick(post.username)}
-            >
-              <div>
+            <div className="d-flex justify-content-between">
+              <div onClick={() => handleProfileClick(post.username)}>
                 <strong>
                   {post.firstName} {post.lastName}
                 </strong>
@@ -121,6 +124,34 @@ const PostCard = ({ post }) => {
                     day: "numeric",
                   })}
                 </span>
+              </div>
+              <div className="btn-group">
+                <Ellipsis
+                  className="dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style={{ cursor: "pointer" }}
+                />
+
+                <ul className="dropdown-menu">
+                  <li
+                    className="container"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    data-bs-whatever="@mdo"
+                    onClick={() => editPost(post)}
+                  >
+                    <p className="text-white fw-bold">Edit Post</p>
+                  </li>
+                  <li className="container">
+                    <p
+                      className="text-white fw-bold m-0"
+                      onClick={() => deletePost()}
+                    >
+                      Delete Post
+                    </p>
+                  </li>
+                </ul>
               </div>
             </div>
             <p className="mt-2 w-75">{post.content}</p>

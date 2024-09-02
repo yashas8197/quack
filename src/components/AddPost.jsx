@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../utils/postSlice";
 import { useNavigate } from "react-router-dom";
 import UploadWidget from "./UploadWidget";
@@ -114,6 +114,7 @@ export const AddPostModal = () => {
             <button
               onClick={handleSubmit}
               className="btn btn-primary rounded-pill"
+              data-bs-dismiss="modal"
               disabled={!postForm.content && !postForm.mediaUrl}
             >
               Quack
