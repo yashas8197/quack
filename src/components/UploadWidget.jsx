@@ -1,4 +1,4 @@
-import { FileImage } from "lucide-react";
+import { Camera, FileImage } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const UploadWidget = ({ onUpload }) => {
@@ -21,9 +21,9 @@ const UploadWidget = ({ onUpload }) => {
   }, [onUpload]);
 
   return (
-    <FileImage
+    <Camera
       onClick={() => widgetRef.current.open()}
-      className="text-primary cursor-pointer"
+      className="cursor-pointer"
     />
   );
 };

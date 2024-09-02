@@ -8,6 +8,7 @@ import { fetchPosts } from "../utils/postSlice";
 import PostCard from "../components/PostCard";
 import ShowFollow from "../components/ShowFollow";
 import useNotFollowingBack from "../utils/useNotFollowingBack";
+import EditProfile from "../components/EditProfile";
 
 const Profile = () => {
   const { username } = useParams();
@@ -57,7 +58,7 @@ const Profile = () => {
     >
       <div className="d-flex align-items-center mb-4">
         <img
-          className="rounded-circle"
+          className="rounded-circle img-fluid"
           src={user.avatarURL}
           alt="User Avatar"
           style={{ width: "100px", height: "100px", objectFit: "cover" }}
@@ -68,9 +69,15 @@ const Profile = () => {
           </h4>
           <p>@{user.username}</p>
         </div>
-        <button className="btn btn-light rounded-pill ms-auto">
-          Edit Profile
-        </button>
+        {user.username === "Katherine" && (
+          <button
+            className="btn btn-light rounded-pill ms-auto"
+            data-bs-toggle="modal"
+            data-bs-target="#editProfile"
+          >
+            Edit Profile
+          </button>
+        )}
       </div>
       <div className="mb-5">
         <p>{user.bio}</p>
@@ -122,6 +129,8 @@ const Profile = () => {
         clickedOn={clickedOn}
         notFollowBack={notFollowBack}
       />
+
+      <EditProfile user={user} />
     </div>
   );
 };

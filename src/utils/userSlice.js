@@ -51,6 +51,18 @@ export const unFollowUser = createAsyncThunk(
   }
 );
 
+export const updateUserProfile = createAsyncThunk(
+  "user/updateUserProfile",
+  async ({ userId, dataToUpdate }) => {
+    const response = await axios.post(
+      `https://quack-be.vercel.app/api/v1/profile/${userId}`,
+      dataToUpdate
+    );
+
+    return response.data;
+  }
+);
+
 const userSlice = createSlice({
   name: "users",
   initialState: {
@@ -81,6 +93,19 @@ const userSlice = createSlice({
       state.user = action.payload.user;
     });
     builder.addCase(fetchUserByUsername.rejected, (state, action) => {
+      state.status = "rejected";
+      state.error = action.error.message;
+    });
+
+    builder.addCase(updateUserProfile.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(updateUserProfile.fulfilled, (state, action) => {
+      state.status = "fulfilled";
+      const userUpdate = action.payload.user;
+      state.user = userUpdate;
+    });
+    builder.addCase(updateUserProfile.rejected, (state, action) => {
       state.status = "rejected";
       state.error = action.error.message;
     });

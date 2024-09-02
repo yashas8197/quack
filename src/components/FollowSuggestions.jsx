@@ -17,15 +17,17 @@ const FollowSuggestions = () => {
   }, [dispatch]);
   const users = useSelector((state) => state.users.usersList);
 
-  const ownerUser = users.find((user) => user.username === "Katherine");
+  const ownerUser = users?.find((user) => user.username === "Katherine") || [];
 
-  const whoToFollow = users.filter(
-    (user) =>
-      user.username !== "Katherine" &&
-      !ownerUser.following.some(
-        (following) => following.username === user.username
+  const whoToFollow = ownerUser
+    ? users?.filter(
+        (user) =>
+          user.username !== "Katherine" &&
+          !ownerUser.following.some(
+            (following) => following.username === user.username
+          )
       )
-  );
+    : [];
 
   const followRequest = (user) => {
     const newFollowRequest = {
