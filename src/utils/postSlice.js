@@ -71,6 +71,21 @@ export const editPostApi = createAsyncThunk(
       `https://quack-be.vercel.app/api/v1/edit/${id}`,
       dataToUpdate
     );
+    console.log(response.data);
+    return response.data;
+  }
+);
+
+export const editPostAvatar = createAsyncThunk(
+  "posts/editPostAvatar",
+  async ({ username, dataToUpdate }) => {
+    console.log(username);
+    console.log(dataToUpdate);
+    const response = await axios.post(
+      `https://quack-be.vercel.app/api/post/edit/${username}`,
+      dataToUpdate
+    );
+    console.log(response.data);
     return response.data;
   }
 );
@@ -174,6 +189,20 @@ const postSlice = createSlice({
       state.posts = state.posts.filter((post) => post._id !== action.payload);
     });
     builder.addCase(deletePostApi.rejected, (state) => {
+      state.status = "rejected";
+    });
+
+    builder.addCase(editPostAvatar.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(editPostAvatar.fulfilled, (state, action) => {
+      state.status = "fulfilled";
+      const updatedPost = action.payload.post;
+      state.posts = state.posts.map((post) =>
+        post.username === updatedPost.username ? updatedPost : post
+      );
+    });
+    builder.addCase(editPostAvatar.rejected, (state) => {
       state.status = "rejected";
     });
   },

@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../utils/userSlice";
 import { useState } from "react";
 import UploadWidget from "./UploadWidget";
+import { editPostApi, editPostAvatar } from "../utils/postSlice";
 
 const EditProfile = ({ user }) => {
   const [profileAvatar, setProfileAvatar] = useState(user?.avatarURL);
@@ -16,6 +17,14 @@ const EditProfile = ({ user }) => {
       avatarURL: profileAvatar,
     };
     dispatch(updateUserProfile({ userId: user._id, dataToUpdate }));
+
+    const postDataToUpdate = { avatarURL: profileAvatar };
+    dispatch(
+      editPostAvatar({
+        username: user.username,
+        dataToUpdate: postDataToUpdate,
+      })
+    );
   };
 
   const handleUpload = (url) => {
@@ -114,6 +123,21 @@ const EditProfile = ({ user }) => {
                   onClick={() =>
                     setProfileAvatar(
                       "https://res.cloudinary.com/darwtgzlk/image/upload/v1687601397/socialMedia/avatar/avatar3_gc9xeu.png"
+                    )
+                  }
+                  alt="User Avatar"
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    objectFit: "cover",
+                  }}
+                />
+                <img
+                  className="rounded-circle img-fluid "
+                  src="https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg"
+                  onClick={() =>
+                    setProfileAvatar(
+                      "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg"
                     )
                   }
                   alt="User Avatar"
