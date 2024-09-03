@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import UploadWidget from "./UploadWidget";
 import { useEffect, useState } from "react";
-import { editedPost, editPostApi, setPost } from "../utils/postSlice";
+import { editPostApi, setPost } from "../utils/postSlice";
 
 const EditPost = () => {
   const { editPost, status } = useSelector((state) => state.posts);

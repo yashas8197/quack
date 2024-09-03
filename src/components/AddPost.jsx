@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createPost } from "../utils/postSlice";
 import { useNavigate } from "react-router-dom";
 import UploadWidget from "./UploadWidget";

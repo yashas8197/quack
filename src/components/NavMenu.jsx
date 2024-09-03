@@ -14,7 +14,7 @@ const NavMenu = () => {
   const currentPath = window.location.pathname;
 
   return (
-    <div className="p-4">
+    <div className="p-4 mx-3">
       <div className="mb-4">
         <p
           className={`d-flex gap-3 align-items-center h5 mb-5 ${

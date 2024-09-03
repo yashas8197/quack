@@ -1,4 +1,4 @@
-import { Camera, FileImage } from "lucide-react";
+import { Camera } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const UploadWidget = ({ onUpload }) => {

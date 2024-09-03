@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../utils/userSlice";
 import { useState } from "react";
 import UploadWidget from "./UploadWidget";
-import { editPostApi, editPostAvatar } from "../utils/postSlice";
+import { editPostAvatar } from "../utils/postSlice";
 
 const EditProfile = ({ user }) => {
   const [profileAvatar, setProfileAvatar] = useState(user?.avatarURL);

@@ -23,9 +23,7 @@ const Profile = () => {
     dispatch(fetchPosts());
   }, [dispatch, username]);
 
-  const { user, usersList, status, error } = useSelector(
-    (state) => state.users
-  );
+  const { user, status, error } = useSelector((state) => state.users);
 
   useEffect(() => {
     if (user) {

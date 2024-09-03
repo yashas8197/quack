@@ -71,7 +71,6 @@ export const editPostApi = createAsyncThunk(
       `https://quack-be.vercel.app/api/v1/edit/${id}`,
       dataToUpdate
     );
-    console.log(response.data);
     return response.data;
   }
 );
@@ -85,7 +84,6 @@ export const editPostAvatar = createAsyncThunk(
       `https://quack-be.vercel.app/api/post/edit/${username}`,
       dataToUpdate
     );
-    console.log(response.data);
     return response.data;
   }
 );
