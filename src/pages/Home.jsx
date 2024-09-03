@@ -29,11 +29,31 @@ const Home = () => {
     setSelectedOption(value);
   };
 
+  const sortedPosts = (allPosts, sortBy) => {
+    if (sortBy === "Latest") {
+      const sortedPosts = allPosts.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      return sortedPosts;
+    }
+    if (sortBy === "Oldest") {
+      const sortedPosts = allPosts.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
+      return sortedPosts;
+    } else {
+      const sortedPosts = allPosts.sort(
+        (a, b) => b.likes.likeCount - a.likes.likeCount
+      );
+      return sortedPosts;
+    }
+  };
+
   return (
     <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>
       <AddPost />
       <div className="d-flex justify-content-between py-4 px-3">
-        <p>Latest Posts</p>
+        <p>{selectedOption} Posts</p>
 
         <div className="btn-group">
           <SlidersHorizontal
@@ -43,13 +63,25 @@ const Home = () => {
             style={{ cursor: "pointer" }}
           />
           <ul className="dropdown-menu">
-            <li className="container" onClick={() => handleSelect("Trending")}>
+            <li
+              className="container"
+              style={{ cursor: "pointer" }}
+              onClick={() => handleSelect("Trending")}
+            >
               <p className="text-white fw-bold">Trending</p>
             </li>
-            <li className="container" onClick={() => handleSelect("Oldest")}>
+            <li
+              className="container"
+              style={{ cursor: "pointer" }}
+              onClick={() => handleSelect("Oldest")}
+            >
               <p className="text-white fw-bold">Oldest</p>
             </li>
-            <li className="container" onClick={() => handleSelect("Latest")}>
+            <li
+              className="container"
+              style={{ cursor: "pointer" }}
+              onClick={() => handleSelect("Latest")}
+            >
               <p className="text-white fw-bold m-0">Latest</p>
             </li>
           </ul>
@@ -60,7 +92,7 @@ const Home = () => {
         <div className="alert alert-danger">Error: {error}</div>
       )}
       <ul className="list-group">
-        {filteredUsers.map((post) => (
+        {sortedPosts(filteredUsers, selectedOption)?.map((post) => (
           <li className="list-group-item" key={post._id}>
             <PostCard post={post} />
           </li>
