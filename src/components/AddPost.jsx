@@ -3,44 +3,23 @@ import { useDispatch } from "react-redux";
 import { createPost } from "../utils/postSlice";
 import { useNavigate } from "react-router-dom";
 import UploadWidget from "./UploadWidget";
+import usePostForm from "../utils/usePostForm";
+
+const initialFormState = {
+  firstName: "Katherine",
+  lastName: "Brundage",
+  avatarURL:
+    "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
+  username: "Katherine",
+  content: "",
+  mediaUrl: "",
+  type: "",
+};
 
 export const AddPostModal = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [postForm, setPostForm] = useState({
-    firstName: "Katherine",
-    lastName: "Brundage",
-    avatarURL:
-      "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
-    username: "Katherine",
-    content: "",
-    mediaUrl: "",
-    type: "",
-  });
-
-  const handleUpload = (url) => {
-    setPostForm((prev) => ({
-      ...prev,
-      mediaUrl: url,
-      type: url.endsWith(".mp4") ? "video" : "image",
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPost({ dataToUpload: postForm }));
-    setPostForm({
-      firstName: "Katherine",
-      lastName: "Brundage",
-      avatarURL:
-        "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
-      username: "Katherine",
-      content: "",
-      mediaUrl: "",
-      type: "",
-    });
-    setShow(false);
-  };
+  const { postForm, handleUpload, handleChange, handleSubmit, resetForm } =
+    usePostForm(initialFormState);
 
   return (
     <div
@@ -82,12 +61,7 @@ export const AddPostModal = () => {
                   className="form-control"
                   id="message-text"
                   value={postForm.content}
-                  onChange={(e) =>
-                    setPostForm((prev) => ({
-                      ...prev,
-                      content: e.target.value,
-                    }))
-                  }
+                  onChange={handleChange}
                 ></textarea>
               </div>
 
@@ -112,7 +86,7 @@ export const AddPostModal = () => {
           </div>
           <div className="modal-footer">
             <button
-              onClick={handleSubmit}
+              onClick={(e) => handleSubmit(e, resetForm)}
               className="btn btn-primary rounded-pill"
               data-bs-dismiss="modal"
               disabled={!postForm.content && !postForm.mediaUrl}
@@ -127,41 +101,9 @@ export const AddPostModal = () => {
 };
 
 const AddPost = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [postForm, setPostForm] = useState({
-    firstName: "Katherine",
-    lastName: "Brundage",
-    avatarURL:
-      "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
-    username: "Katherine",
-    content: "",
-    mediaUrl: "",
-    type: "",
-  });
-
-  const handleUpload = (url) => {
-    setPostForm((prev) => ({
-      ...prev,
-      mediaUrl: url,
-      type: url.endsWith(".mp4") ? "video" : "image",
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPost({ dataToUpload: postForm }));
-    setPostForm({
-      firstName: "Katherine",
-      lastName: "Brundage",
-      avatarURL:
-        "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
-      username: "Katherine",
-      content: "",
-      mediaUrl: "",
-      type: "",
-    });
-  };
+  const { postForm, handleUpload, handleChange, handleSubmit, resetForm } =
+    usePostForm(initialFormState);
 
   return (
     <div className="p-4" style={{ border: "none" }}>
@@ -178,7 +120,10 @@ const AddPost = () => {
             cursor: "pointer",
           }}
         />
-        <form className="flex-grow-1" onSubmit={handleSubmit}>
+        <form
+          className="flex-grow-1"
+          onSubmit={(e) => handleSubmit(e, resetForm)}
+        >
           <textarea
             className="form-control mb-3"
             rows="3"
@@ -189,9 +134,7 @@ const AddPost = () => {
               boxShadow: "none",
             }}
             value={postForm.content}
-            onChange={(e) =>
-              setPostForm((prev) => ({ ...prev, content: e.target.value }))
-            }
+            onChange={handleChange}
           ></textarea>
 
           {postForm.mediaUrl && (

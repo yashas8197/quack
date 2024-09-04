@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchUserByUsername, unFollowUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 
-const ShowFollow = ({ user, clickedOn, notFollowBack }) => {
+const ShowFollow = ({ user, clickedOn, notFollowBack, currentUser }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const usersToDisplay =
@@ -10,9 +10,12 @@ const ShowFollow = ({ user, clickedOn, notFollowBack }) => {
 
   const unFollowUserHandler = (id) => {
     dispatch(unFollowUser({ userId: user._id, followId: id }));
-    setTimeout(() => {
-      dispatch(fetchUserByUsername("Katherine"));
-    }, 500);
+
+    // console.log(currentUser);
+
+    dispatch(
+      fetchUserByUsername(currentUser === undefined ? "Katherine" : currentUser)
+    );
   };
 
   return (

@@ -90,7 +90,7 @@ const Profile = () => {
         </p>
         <p className="d-flex align-items-center gap-2">
           <span>
-            <span className="text-white fw-bold">2</span>
+            <span className="text-white fw-bold">{usersPosts.length}</span>
             <span className="text-muted">Posts</span>
           </span>
           <span
@@ -128,7 +128,7 @@ const Profile = () => {
         notFollowBack={notFollowBack}
       />
 
-      <EditProfile user={user} />
+      <EditProfile user={user} currentUser={user.username} />
     </div>
   );
 };

@@ -11,16 +11,22 @@ import { useNavigate } from "react-router-dom";
 
 const FollowSuggestions = () => {
   const dispatch = useDispatch();
-  const naviagate = useNavigate();
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-  const users = useSelector((state) => state.users.usersList);
 
-  const ownerUser = users?.find((user) => user.username === "Katherine") || [];
+  const { usersList, loading } = useSelector((state) => state.users);
+  const ownerUserData = useSelector((state) => state.users.ownerUserData);
+
+  const ownerUser =
+    usersList?.find((user) => user.username === "Katherine") || [];
+
+  // console.log(ownerUserData);
 
   const whoToFollow = ownerUser
-    ? users?.filter(
+    ? usersList?.filter(
         (user) =>
           user.username !== "Katherine" &&
           !ownerUser.following.some(
@@ -30,33 +36,51 @@ const FollowSuggestions = () => {
     : [];
 
   const followRequest = (user) => {
-    const newFollowRequest = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      username: user.username,
-      avatarURL: user.avatarURL,
-    };
-    dispatch(
-      addFollowing({ userId: "66cf5b279f160ce5ef57dcd1", newFollowRequest })
-    );
-    dispatch(
-      updateUserFollowing({
-        id: "66cf5b279f160ce5ef57dcd1",
-        dataToUpdate: newFollowRequest,
-      })
-    );
-    const profileUser = {
-      firstName: "Katherine",
-      lastName: "Brundage",
-      username: "Katherine",
-      avatarURL:
-        "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
-    };
-    dispatch(updateUserFollowers({ id: user._id, dataToUpdate: profileUser }));
+    try {
+      const newFollowRequest = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        avatarURL: user.avatarURL,
+      };
+      dispatch(
+        addFollowing({ userId: "66cf5b279f160ce5ef57dcd1", newFollowRequest })
+      );
+
+      dispatch(
+        updateUserFollowing({
+          id: "66cf5b279f160ce5ef57dcd1",
+          dataToUpdate: newFollowRequest,
+        })
+      );
+
+      /* dispatch(
+        updateUserFollowers({ id: user._id, dataToUpdate: ownerUserData })
+      ); */
+
+      dispatch(
+        updateUserFollowers({
+          id: user._id,
+          dataToUpdate: {
+            firstName: "Katherine",
+            lastName: "Brundage",
+            username: "Katherine",
+            avatarURL:
+              "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
+          },
+        })
+      );
+    } catch (error) {
+      console.error("Error following user:", error);
+    }
   };
 
   if (whoToFollow.length === 0) {
     return;
+  }
+
+  if (loading) {
+    return <p className="text-secondary">Loading suggestions...</p>;
   }
 
   return (
@@ -72,7 +96,7 @@ const FollowSuggestions = () => {
         >
           <div
             className="d-flex align-items-center"
-            onClick={() => naviagate(`/profile/${user.username}`)}
+            onClick={() => navigate(`/profile/${user.username}`)}
           >
             <img
               className="rounded-circle"

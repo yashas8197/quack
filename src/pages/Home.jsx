@@ -30,24 +30,22 @@ const Home = () => {
   };
 
   const sortedPosts = (allPosts, sortBy) => {
+    const postsCopy = [...allPosts];
     if (sortBy === "Latest") {
-      const sortedPosts = allPosts.sort(
+      return postsCopy.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      return sortedPosts;
     }
     if (sortBy === "Oldest") {
-      const sortedPosts = allPosts.sort(
+      return postsCopy.sort(
         (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
       );
-      return sortedPosts;
-    } else {
-      const sortedPosts = allPosts.sort(
-        (a, b) => b.likes.likeCount - a.likes.likeCount
-      );
-      return sortedPosts;
     }
+    // Trending
+    return postsCopy.sort((a, b) => b.likes.likeCount - a.likes.likeCount);
   };
+
+  const sortPosts = sortedPosts(filteredUsers, selectedOption);
 
   return (
     <div className="container" style={{ height: "92vh", overflowY: "scroll" }}>
@@ -92,7 +90,7 @@ const Home = () => {
         <div className="alert alert-danger">Error: {error}</div>
       )}
       <ul className="list-group">
-        {sortedPosts(filteredUsers, selectedOption)?.map((post) => (
+        {sortPosts?.map((post) => (
           <li className="list-group-item" key={post._id}>
             <PostCard post={post} />
           </li>

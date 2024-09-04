@@ -116,93 +116,78 @@ const postSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchPosts.pending, (state) => {
+    const handlePending = (state) => {
       state.status = "loading";
-    });
+    };
+
+    const handleFulfilled = (state, action) => {
+      state.status = "fulfilled";
+    };
+
+    const handleRejected = (state, action) => {
+      state.status = "rejected";
+      state.error = action.error.message || "Something went wrong";
+    };
+
+    builder.addCase(fetchPosts.pending, handlePending);
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
-      state.status = "fullfilled";
+      handleFulfilled(state);
       state.posts = action.payload.posts;
     });
-    builder.addCase(fetchPosts.rejected, (state) => {
-      state.status = "rejected";
-    });
+    builder.addCase(fetchPosts.rejected, handleRejected);
 
-    builder.addCase(updatePost.pending, (state) => {
-      state.status = "loading";
-    });
+    builder.addCase(updatePost.pending, handlePending);
     builder.addCase(updatePost.fulfilled, (state, action) => {
-      state.status = "fullfilled";
+      handleFulfilled(state);
       const updatedPost = action.payload.post;
       state.posts = state.posts.map((post) =>
         post._id === updatedPost._id ? updatedPost : post
       );
     });
-    builder.addCase(updatePost.rejected, (state) => {
-      state.status = "rejected";
-    });
+    builder.addCase(updatePost.rejected, handleRejected);
 
-    builder.addCase(fetchPostById.pending, (state) => {
-      state.status = "loading";
-    });
+    builder.addCase(fetchPostById.pending, handlePending);
     builder.addCase(fetchPostById.fulfilled, (state, action) => {
-      state.status = "fulfilled";
+      handleFulfilled(state);
       state.currentPost = action.payload.post;
     });
-    builder.addCase(fetchPostById.rejected, (state) => {
-      state.status = "rejected";
-    });
+    builder.addCase(fetchPostById.rejected, handleRejected);
 
-    builder.addCase(createPost.pending, (state) => {
-      state.status = "loading";
-    });
+    builder.addCase(createPost.pending, handlePending);
     builder.addCase(createPost.fulfilled, (state, action) => {
-      state.status = "fulfilled";
+      handleFulfilled(state);
       const newPost = action.payload;
       state.posts = [...state.posts, newPost];
     });
-    builder.addCase(createPost.rejected, (state) => {
-      state.status = "rejected";
-    });
+    builder.addCase(createPost.rejected, handleRejected);
 
-    builder.addCase(editPostApi.pending, (state) => {
-      state.status = "loading";
-    });
+    builder.addCase(editPostApi.pending, handlePending);
     builder.addCase(editPostApi.fulfilled, (state, action) => {
-      state.status = "fulfilled";
+      handleFulfilled(state);
       const updatedPost = action.payload.post;
       state.editPost = updatedPost;
       state.posts = state.posts.map((post) =>
         post._id === updatedPost._id ? updatedPost : post
       );
     });
-    builder.addCase(editPostApi.rejected, (state) => {
-      state.status = "rejected";
-    });
+    builder.addCase(editPostApi.rejected, handleRejected);
 
-    builder.addCase(deletePostApi.pending, (state) => {
-      state.status = "loading";
-    });
+    builder.addCase(deletePostApi.pending, handlePending);
     builder.addCase(deletePostApi.fulfilled, (state, action) => {
-      state.status = "fulfilled";
+      handleFulfilled(state);
       state.posts = state.posts.filter((post) => post._id !== action.payload);
     });
-    builder.addCase(deletePostApi.rejected, (state) => {
-      state.status = "rejected";
-    });
+    builder.addCase(deletePostApi.rejected, handleRejected);
 
-    builder.addCase(editPostAvatar.pending, (state) => {
-      state.status = "loading";
-    });
+    builder.addCase(editPostAvatar.pending, handlePending);
     builder.addCase(editPostAvatar.fulfilled, (state, action) => {
-      state.status = "fulfilled";
+      handleFulfilled(state);
       const updatedPost = action.payload.post;
       state.posts = state.posts.map((post) =>
         post.username === updatedPost.username ? updatedPost : post
       );
     });
-    builder.addCase(editPostAvatar.rejected, (state) => {
-      state.status = "rejected";
-    });
+    builder.addCase(editPostAvatar.rejected, handleRejected);
   },
 });
 

@@ -7,7 +7,7 @@ import {
   House,
   LogOut,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const NavMenu = () => {
   const navigate = useNavigate();
@@ -16,55 +16,55 @@ const NavMenu = () => {
   return (
     <div className="p-4 mx-3">
       <div className="mb-4">
-        <p
-          className={`d-flex gap-3 align-items-center h5 mb-5 ${
+        <NavLink
+          className={`d-flex gap-3 align-items-center h5 mb-5 text-decoration-none ${
             currentPath === "/" ? "text-primary" : ""
           }`}
-          onClick={() => navigate("/")}
           style={{ cursor: "pointer" }}
+          to="/"
         >
           <House />
           Home
-        </p>
-        <p
-          className={`d-flex gap-3 align-items-center h5 my-5 ${
+        </NavLink>
+        <NavLink
+          className={`d-flex gap-3 align-items-center h5 my-5 text-decoration-none ${
             currentPath === "/explore" ? "text-primary" : ""
           }`}
-          onClick={() => navigate("/explore")}
           style={{ cursor: "pointer" }}
+          to="/explore"
         >
           <Compass />
           Explore
-        </p>
-        <p
-          className={`d-flex gap-3 align-items-center h5 my-5 ${
+        </NavLink>
+        <NavLink
+          className={`d-flex gap-3 align-items-center h5 my-5 text-decoration-none ${
             currentPath === "/bookmark" ? "text-primary" : ""
           }`}
-          onClick={() => navigate("/bookmark")}
           style={{ cursor: "pointer" }}
+          to="/bookmark"
         >
           <Bookmark />
           Bookmark
-        </p>
-        <p
-          className={`d-flex gap-3 align-items-center h5 my-5 ${
+        </NavLink>
+        <NavLink
+          className={`d-flex gap-3 align-items-center h5 my-5 text-decoration-none ${
             currentPath === "/profile/Katherine" ? "text-primary" : ""
           }`}
-          onClick={() => navigate("/profile/Katherine")}
           style={{ cursor: "pointer" }}
+          to="/profile/Katherine"
         >
           <CircleUserRound />
           Profile
-        </p>
-        <p
-          className={`d-flex gap-3 align-items-center h5 my-5 ${
+        </NavLink>
+        <NavLink
+          className={`d-flex gap-3 align-items-center h5 my-5 text-decoration-none ${
             currentPath === "/logout" ? "text-primary" : ""
           }`}
           style={{ cursor: "pointer" }}
         >
           <LogOut />
           Logout
-        </p>
+        </NavLink>
       </div>
       <button
         type="button"

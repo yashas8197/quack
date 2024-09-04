@@ -4,6 +4,13 @@ import { useState } from "react";
 import UploadWidget from "./UploadWidget";
 import { editPostAvatar } from "../utils/postSlice";
 
+const avatarImage = [
+  "https://res.cloudinary.com/darwtgzlk/image/upload/v1687601406/socialMedia/avatar/avatar-1_yg7arg.png",
+  "https://res.cloudinary.com/darwtgzlk/image/upload/v1687601402/socialMedia/avatar/avatar2_wxqedh.png",
+  "https://res.cloudinary.com/darwtgzlk/image/upload/v1687601397/socialMedia/avatar/avatar3_gc9xeu.png",
+  "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
+];
+
 const EditProfile = ({ user }) => {
   const [profileAvatar, setProfileAvatar] = useState(user?.avatarURL);
   const [profileBio, setProfileBio] = useState(user?.bio);
@@ -87,66 +94,20 @@ const EditProfile = ({ user }) => {
                 Choose a picture from your gallary or from existing avatars
               </p>
               <div className="d-flex gap-2 mb-3">
-                <img
-                  className="rounded-circle img-fluid "
-                  src="https://res.cloudinary.com/darwtgzlk/image/upload/v1687601406/socialMedia/avatar/avatar-1_yg7arg.png"
-                  alt="User Avatar"
-                  onClick={() =>
-                    setProfileAvatar(
-                      "https://res.cloudinary.com/darwtgzlk/image/upload/v1687601406/socialMedia/avatar/avatar-1_yg7arg.png"
-                    )
-                  }
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    objectFit: "cover",
-                  }}
-                />
-                <img
-                  className="rounded-circle img-fluid "
-                  src="https://res.cloudinary.com/darwtgzlk/image/upload/v1687601402/socialMedia/avatar/avatar2_wxqedh.png"
-                  onClick={() =>
-                    setProfileAvatar(
-                      "https://res.cloudinary.com/darwtgzlk/image/upload/v1687601402/socialMedia/avatar/avatar2_wxqedh.png"
-                    )
-                  }
-                  alt="User Avatar"
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    objectFit: "cover",
-                  }}
-                />
-                <img
-                  className="rounded-circle img-fluid "
-                  src="https://res.cloudinary.com/darwtgzlk/image/upload/v1687601397/socialMedia/avatar/avatar3_gc9xeu.png"
-                  onClick={() =>
-                    setProfileAvatar(
-                      "https://res.cloudinary.com/darwtgzlk/image/upload/v1687601397/socialMedia/avatar/avatar3_gc9xeu.png"
-                    )
-                  }
-                  alt="User Avatar"
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    objectFit: "cover",
-                  }}
-                />
-                <img
-                  className="rounded-circle img-fluid "
-                  src="https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg"
-                  onClick={() =>
-                    setProfileAvatar(
-                      "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg"
-                    )
-                  }
-                  alt="User Avatar"
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    objectFit: "cover",
-                  }}
-                />
+                {avatarImage.map((avatar, i) => (
+                  <img
+                    key={i}
+                    className="rounded-circle img-fluid "
+                    src={avatar}
+                    alt="User Avatar"
+                    onClick={() => setProfileAvatar({ avatar })}
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      objectFit: "cover",
+                    }}
+                  />
+                ))}
               </div>
               <p className="fw-bold m-0 text-white">
                 {user.firstName} {user.lastName}
@@ -161,6 +122,7 @@ const EditProfile = ({ user }) => {
               ></textarea>
               <label>Website</label>
               <textarea
+                type="url"
                 className="form-control bg-secondary text-white"
                 onChange={(e) => setProfileWebsite(e.target.value)}
                 value={profileWebsite}

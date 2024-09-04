@@ -47,6 +47,7 @@ export const unFollowUser = createAsyncThunk(
       `https://quack-be.vercel.app/api/v1/unfollow/${userId}/${followId}`
     );
 
+    console.log(response.data);
     return response.data;
   }
 );
@@ -68,6 +69,13 @@ const userSlice = createSlice({
   initialState: {
     usersList: [],
     user: null,
+    ownerUserData: {
+      firstName: "Katherine",
+      lastName: "Brundage",
+      username: "Katherine",
+      avatarURL:
+        "https://res.cloudinary.com/darwtgzlk/image/upload/w_400,f_auto,q_auto/v1686251367/socialMedia/profilePictures/user1_wla0x2.jpg",
+    },
     status: "idle",
     error: null,
   },
