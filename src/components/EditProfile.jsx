@@ -100,7 +100,7 @@ const EditProfile = ({ user }) => {
                     className="rounded-circle img-fluid "
                     src={avatar}
                     alt="User Avatar"
-                    onClick={() => setProfileAvatar({ avatar })}
+                    onClick={() => setProfileAvatar(avatar)}
                     style={{
                       width: "80px",
                       height: "80px",

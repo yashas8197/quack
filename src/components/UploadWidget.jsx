@@ -7,7 +7,7 @@ const UploadWidget = ({ onUpload }) => {
   const widgetRef = useRef(null);
 
   useEffect(() => {
-    if (window.cloudinary) {
+    if (!cloudinaryRef.current && window.cloudinary) {
       cloudinaryRef.current = window.cloudinary;
       widgetRef.current = cloudinaryRef.current.createUploadWidget(
         {
@@ -16,11 +16,11 @@ const UploadWidget = ({ onUpload }) => {
         },
         (error, result) => {
           if (error) {
-            console.error("Upload error:", error); // Log error
+            console.error("Upload error:", error);
             return;
           }
           if (result && result.event === "success") {
-            onUpload(result.info.secure_url); // Pass the uploaded media URL to the parent
+            onUpload(result.info.secure_url);
           }
         }
       );
@@ -28,7 +28,7 @@ const UploadWidget = ({ onUpload }) => {
 
     return () => {
       if (widgetRef.current) {
-        widgetRef.current = null; // Clean up widget reference
+        widgetRef.current = null;
       }
     };
   }, [onUpload]);
