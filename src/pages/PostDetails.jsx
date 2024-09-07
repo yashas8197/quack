@@ -28,7 +28,7 @@ const PostDetails = () => {
         padding: "1rem",
       }}
     >
-      {status === "loading" && <div className="text-center">Loading...</div>}
+      {status === "loading" && <div className="text-center"></div>}
       {status === "error" && (
         <div className="alert alert-danger">Error: {error}</div>
       )}
